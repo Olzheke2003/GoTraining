@@ -17,16 +17,13 @@ func TestUserRepository_Create(t *testing.T) {
 }
 
 func TestUserRepository_FindByEmail(t *testing.T) {
-	s, teardown := store.TestStore(t, dataBaseURL)
-	defer teardown("users")
-	email := "olzhas@gmail.com"
-	_, err := s.User().FindEmail(email)
-	assert.Error(t, err)
-	u := model.TestUser(t)
-	u.Email = email
+	s := teststore.New()
+	u1 := model.TestUser(t)
+	_, err := s.User().FindByEmail(u1.Email)
+	assert.EqualError(t, err, store.ErrRecordNotFound.Error())
 
-	s.User().Create(&model.User(u)
-	u, err := s.User().FindEmail(email)
+	s.User().Create(u1)
+	u2, err := s.User().FindByEmail(u1.Email)
 	assert.NoError(t, err)
-	assert.NotNil(t, u)
+	assert.NotNil(t, u2)
 }

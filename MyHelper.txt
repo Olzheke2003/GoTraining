@@ -1,0 +1,8 @@
+migrate -path migrations -database "postgres://localhost/restapi_dev?sslmode=disable" up    --  приминение миграции
+
+docker exec -it postgres_container psql -U postgres -c "CREATE DATABASE restapi_dev;"   --  создаем бд
+
+docker run --rm -v $(pwd)/migrations:/migrations --network host migrate/migrate   -path=/migrations -database "postgres://postgres:postgres@localhost:5432/restapi_dev?sslmode=disable" up  --  миграции
+
+
+docker-compose up migrate   --  приминение миграции 

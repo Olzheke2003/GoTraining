@@ -25,6 +25,7 @@ func TestUser_Validate(t *testing.T) {
 			u: func() *model.User {
 				u := model.TestUser(t)
 				u.Email = ""
+
 				return u
 			},
 			isValid: false,
